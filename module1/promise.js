@@ -1,4 +1,4 @@
-let promise = new Promise(function (resolve) {
+function sendEmail(){return new Promise(function (resolve) {
     setTimeout(() => resolve(signIn()), 1000);
 }).then(() =>{
     return choosePerson();
@@ -7,10 +7,13 @@ let promise = new Promise(function (resolve) {
 }).then(() => {
     return writeEmail();
 }).then(() => {
-    return sendEmail();
+    return confirmSendingEmail();
 }).catch(() => {
     console.log("Sending email was failed");
 })
+};
+
+sendEmail();
 
 function signIn() {
     console.log("You jave successfully signed in");
@@ -28,7 +31,7 @@ function writeEmail() {
     console.log("You have written an email");
 }
 
-function sendEmail() {
+function confirmSendingEmail() {
     console.log("You have sent the email");
 }
 
