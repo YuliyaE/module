@@ -1,37 +1,50 @@
-function sendEmail(){return new Promise(function (resolve) {
-    setTimeout(() => resolve(signIn()), 1000);
-}).then(() =>{
-    return choosePerson();
-}).then(() =>{
-    return subjectOfEmail();
-}).then(() => {
-    return writeEmail();
-}).then(() => {
-    return confirmSendingEmail();
-}).catch(() => {
-    console.log("Sending email was failed");
-})
+let areValidCredentials = true;
+let personName = "Vasya";
+let nameExists = false;
+
+function sendEmail() {
+    return new Promise(function (resolve, reject) {
+        if (areValidCredentials) {
+            setTimeout(() => resolve(signIn()), 1000);
+        }
+        else {
+            reject(new Error("Sign in proccess failed"));
+        }
+    }).then(() => {
+        return new Promise(function (resolve, reject) {
+            if (nameExists) resolve(choosePerson());
+            else reject(new Error("The name doesn't exist"));
+        })
+    }).then(() => {
+        return Promise.resolve(subjectOfEmail());
+    }).then(() => {
+        return Promise.resolve(writeEmail());
+    }).then(() => {
+        return Promise.resolve(confirmSendingEmail());
+    }).catch((reason) => {
+        console.log(reason.message);
+        console.log("Sending email was failed");
+    })
 };
 
 sendEmail();
 
 function signIn() {
-    console.log("You jave successfully signed in");
+    console.log("You successfully signed in");
 }
 
 function choosePerson() {
-    console.log("You have chosen a person");
+    console.log("You chose a person - " + personName);
 }
 
 function subjectOfEmail() {
-    console.log("You have written subject of email");
+    console.log("You wrote subject of email");
 }
 
 function writeEmail() {
-    console.log("You have written an email");
+    console.log("You wrote an email");
 }
 
 function confirmSendingEmail() {
-    console.log("You have sent the email");
+    console.log("You sent the email");
 }
-
